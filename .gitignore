@@ -176,3 +176,17 @@ yarn-error.log*
 secrets/
 *.key
 *.pem
+
+# --- .NET 8 関連 (VS Codeでビルドすると作られるゴミ) ---
+bin/
+obj/
+
+# --- Docker 関連 ---
+# ローカルDBの実データ（GitHubに上げると重すぎる＆危険）
+data/
+
+# --- OS 関連 ---
+# Windowsが勝手に作るキャッシュ
+Thumbs.db
+
+*.user
