@@ -11,6 +11,27 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 
 var app = builder.Build();
 
+try 
+{
+    using var connection = new NpgsqlConnection(connectionString);
+    
+    // analysis_resultsテーブルに起動ログを記録（テーブルがない場合は作成）
+    string sql = @"
+        CREATE TABLE IF NOT EXISTS connection_log (
+            id SERIAL PRIMARY KEY,
+            message TEXT,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        );
+        INSERT INTO connection_log (message) VALUES ('C# App Connection Success!');";
+    
+    connection.Execute(sql);
+    Console.WriteLine(">>> DB Connection Check: SUCCESS!");
+}
+catch (Exception ex) 
+{
+    Console.WriteLine($">>> DB Connection Check: FAILED! - {ex.Message}");
+}
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
